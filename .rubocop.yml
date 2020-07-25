@@ -1,0 +1,17 @@
+require:
+  - rubocop-rspec
+  - rubocop-rails
+  - rubocop-performance
+
+AllCops:
+  DisplayCopNames: true
+  EnabledByDefault: true
+  TargetRubyVersion: 2.7.1
+  Exclude:
+    - 'bin/*'
+    - 'db/**/*'
+    - 'config/**/*'
+    - 'vendor/bundle/**/*'
+
+Rails:
+  Enabled: true
