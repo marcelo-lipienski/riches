@@ -12,8 +12,9 @@ jobs:
     docker:
       - image: circleci/ruby:2.7.1
         environment:
-          PGHOST: 127.0.0.1
-          PGUSER: test_user
+          POSTGRES_HOST: 127.0.0.1
+          POSTGRES_USER: test_user
+          POSTGRES_PASSWORD: riches_password
           RAILS_ENV: test
           TZ: "/usr/share/zoneinfo/America/Sao_Paulo"
       - image: circleci/postgres:12.3
