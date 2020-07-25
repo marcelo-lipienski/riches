@@ -1,0 +1,59 @@
+machine:
+  environment:
+    RAILS_ENV: test
+    RACK_ENV: test
+  ruby:
+    version: 2.7.1
+
+version: 2
+jobs:
+  build:
+    working_directory: ~/myapp
+    docker:
+      - image: circleci/ruby:2.7.1
+        environment:
+          PGHOST: 127.0.0.1
+          PGUSER: test_user
+          RAILS_ENV: test
+          TZ: "/usr/share/zoneinfo/America/Sao_Paulo"
+      - image: circleci/postgres:12.3
+        environment:
+          POSTGRES_USER: test_user
+          POSTGRES_DB: riches_test
+          POSTGRES_PASSWORD: riches_password
+    steps:
+      - checkout
+
+      - restore_cache:
+          name: Restore bundle cache
+          keys:
+            - myapp-bundle-{{ checksum "Gemfile.lock" }}
+            - myapp-bundle-
+
+      - run:
+          name: Configure Bundler
+          command: |
+            echo 'export BUNDLER_VERSION=$(cat Gemfile.lock | tail -1 | tr -d " ")' >> $BASH_ENV
+            source $BASH_ENV
+            gem install bundler
+      - run:
+          name: Bundle Install
+          command: bin/bundle check --path vendor/bundle ||  bin/bundle install --path vendor/bundle --jobs 4 --retry 3
+
+      - save_cache:
+          name: Store bundle cache
+          key: myapp-bundle-{{ checksum "Gemfile.lock" }}
+          paths:
+            - vendor/bundle
+
+      - run:
+          name: Wait for DB
+          command: dockerize -wait tcp://localhost:5432 -timeout 1m
+
+      - run:
+          name: Database setup
+          command: bin/rails db:schema:load --trace
+
+      - run:
+          name: Run riches tests
+          command: bundle exec rspec -f d
