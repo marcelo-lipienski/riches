@@ -1,0 +1,17 @@
+# Everything related to git and github
+.git*
+
+# Documentation files
+*.md
+
+# Env file
+.env
+
+# Circle CI configs
+.circleci
+
+# Docker files
+Dockerfile*
+docker-compose*
+*.dockerfile
+.dockerignore
