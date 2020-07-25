@@ -1,0 +1,46 @@
+version: '3.7'
+
+volumes:
+  postgres-data:
+
+networks:
+  riches:
+    name: riches
+    external: false
+
+services:
+
+  # PostgreSQL Database
+  postgres:
+    image: postgres
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: "${POSTGRES_USER}"
+      POSTGRES_PASSWORD: "${POSTGRES_PASSWORD}"
+    container_name: riches-postgres
+    hostname: riches-postgres
+    networks:
+      - riches
+    ports:
+      - "5432:5432"
+    env_file:
+      - ./.env
+
+  # Rails Application
+  web:
+    build: .
+    command: bash -c "rm -f tmp/pids/server.pid && bundle exec rails s -p 3000 -b '0.0.0.0'"
+    volumes:
+      - .:/app
+    hostname: riches-web
+    networks:
+      - riches
+    ports:
+      - "3000:3000"
+    environment:
+      RAILS_ENV: ${RAILS_ENV}
+    env_file:
+      - ./.env
+    depends_on:
+      - postgres
