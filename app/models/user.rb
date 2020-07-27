@@ -8,4 +8,5 @@ class User < ApplicationRecord
   validates :fullname, :document, :birthdate, :gender, :password, presence: true
 
   has_one :address, dependent: :destroy
+  has_one :account, dependent: :destroy
 end

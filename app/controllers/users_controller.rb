@@ -4,7 +4,10 @@ class UsersController < ApplicationController
   def create
     service = UserRegistrationService.new(user_params, address_params).call
 
-    head(:internal_server_error) && return unless service.success?
+    unless service.success?
+      render(json: { error: service.error }, status: :bad_request)
+      return
+    end
 
     render(json: service.data, status: :created)
   end

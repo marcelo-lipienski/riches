@@ -10,10 +10,21 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_07_27_005054) do
+ActiveRecord::Schema.define(version: 2020_07_27_014121) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "accounts", force: :cascade do |t|
+    t.string "number"
+    t.string "agency"
+    t.decimal "balance", precision: 8, scale: 2
+    t.string "token"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "user_id"
+    t.index ["user_id"], name: "index_accounts_on_user_id"
+  end
 
   create_table "addresses", force: :cascade do |t|
     t.string "country"
@@ -41,5 +52,6 @@ ActiveRecord::Schema.define(version: 2020_07_27_005054) do
     t.string "password_digest"
   end
 
+  add_foreign_key "accounts", "users"
   add_foreign_key "addresses", "users"
 end
