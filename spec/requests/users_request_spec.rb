@@ -4,7 +4,7 @@ require('rails_helper')
 
 RSpec.describe('Users', type: :request) do
   describe('POST /') do
-    let(:user)    { attributes_for(:user) }
+    let(:user)    { attributes_for(:user)    }
     let(:address) { attributes_for(:address) }
 
     let(:invalid_user) do
@@ -27,29 +27,29 @@ RSpec.describe('Users', type: :request) do
     end
 
     context('when user is invalid and address is valid') do
-      it('returns http internal server error') do
+      it('returns http bad request') do
         params = invalid_user.merge(address: address)
 
         post('/users', params: params, as: :json)
-        expect(response).to(have_http_status(:internal_server_error))
+        expect(response).to(have_http_status(:bad_request))
       end
     end
 
     context('when user is valid and address is invalid') do
-      it('returns http internal server error') do
+      it('returns http bad request') do
         params = user.merge(address: invalid_address)
 
         post('/users', params: params, as: :json)
-        expect(response).to(have_http_status(:internal_server_error))
+        expect(response).to(have_http_status(:bad_request))
       end
     end
 
     context('when user and address are invalid') do
-      it('returns http internal server error') do
+      it('returns http bad request') do
         params = invalid_user.merge(address: invalid_address)
 
         post('/users', params: params, as: :json)
-        expect(response).to(have_http_status(:internal_server_error))
+        expect(response).to(have_http_status(:bad_request))
       end
     end
   end
