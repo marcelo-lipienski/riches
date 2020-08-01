@@ -14,15 +14,14 @@ RSpec.describe(UserAccountCreationService) do
       expect(service.data[:number][0..3]).to(eq('1000'))
     end
 
-    it('expects account balance to be between 1000 and 1800') do
-      expect(service.data[:balance]).to(be_between(1000, 1800))
+    it('expects account limit to be between 1000 and 1800') do
+      expect(service.data[:limit]).to(be_between(1000, 1800))
     end
   end
 
   context('when there is already a registered account') do
     it('expects account number to be 1001-?') do
-      user = create(:user)
-      Account.create!(user_id: user.id)
+      create(:account)
 
       expect(service.data[:number][0..3]).to(eq('1001'))
     end

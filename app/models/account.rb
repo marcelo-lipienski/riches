@@ -2,8 +2,14 @@
 
 class Account < ApplicationRecord
   belongs_to :user
-  has_many :source_transactions, class_name: 'Transaction', foreign_key: 'source_account_id'
-  has_many :destination_transactions, class_name: 'Transaction', foreign_key: 'destination_account_id'
+
+  has_many :source_transactions,
+           class_name: 'Transaction',
+           foreign_key: 'source_account_id'
+
+  has_many :destination_transactions,
+           class_name: 'Transaction',
+           foreign_key: 'destination_account_id'
 
   before_create :create_account
 
@@ -14,7 +20,7 @@ class Account < ApplicationRecord
 
     self.number  = service.data[:number]
     self.agency  = service.data[:agency]
-    self.balance = service.data[:balance]
+    self.limit   = service.data[:limit]
     self.token   = service.data[:token]
   end
 end
