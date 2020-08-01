@@ -7,7 +7,7 @@ class UserAccountCreationService
       data: {
         number: account_number,
         agency: random_string,
-        balance: account_balance,
+        limit: account_limit,
         token: random_string
       }
     )
@@ -33,7 +33,7 @@ class UserAccountCreationService
     Array.new(4) { rand(1..9).to_s }.join
   end
 
-  def account_balance
+  def account_limit
     rand(1000..1800)
   end
 end
