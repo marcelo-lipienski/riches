@@ -5,7 +5,7 @@ require('rails_helper')
 RSpec.describe(Account, type: :model) do
   context('when account does not belongs to a user') do
     it('expects to be invalid') do
-      account = build(:account)
+      account = build(:account, user: nil)
 
       expect(account).to(be_invalid)
     end
@@ -13,8 +13,7 @@ RSpec.describe(Account, type: :model) do
 
   context('when account belongs to a user') do
     it('expects to be valid') do
-      user = create(:user)
-      account = build(:account, user_id: user.id)
+      account = build(:account)
 
       expect(account).to(be_valid)
     end
