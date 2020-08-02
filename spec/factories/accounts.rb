@@ -6,7 +6,6 @@ FactoryBot.define do
     agency  { Faker::Number.number(digits: 4)              }
     balance { 0                                            }
     limit   { Faker::Number.between(from: 1000, to: 1800)  }
-    token   { Faker::Number.number(digits: 4)              }
     user    { association :user                            }
   end
 end

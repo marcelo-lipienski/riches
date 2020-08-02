@@ -21,6 +21,5 @@ class Account < ApplicationRecord
     self.number  = service.data[:number]
     self.agency  = service.data[:agency]
     self.limit   = service.data[:limit]
-    self.token   = service.data[:token]
   end
 end

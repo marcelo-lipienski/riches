@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class AccountsController < ApplicationController
+  before_action :authorize
   before_action :set_account, only: %i[update]
 
   def update
@@ -17,7 +18,7 @@ class AccountsController < ApplicationController
   private
 
   def set_account
-    @account = Account.find_by(token: account_params[:token])
+    @account = @current_user.account
   end
 
   def account_params
