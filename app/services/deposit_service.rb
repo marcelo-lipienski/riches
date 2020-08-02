@@ -8,6 +8,8 @@ class DepositService
 
   def call
     raise(ActiveRecord::RecordInvalid, 'Amount cannot be less than 0.00') unless amount > 0.00
+    raise(ActiveRecord::RecordInvalid, 'Amount cannot be greater than 800.00') unless amount < daily_deposit_limit
+    raise(ActiveRecord::RecordInvalid, 'Exceeded daily deposit limit') unless can_deposit?
 
     ActiveRecord::Base.transaction do
       create_transaction!
@@ -24,6 +26,16 @@ class DepositService
   private
 
   attr_reader :account, :amount
+
+  def can_deposit?
+    deposits = DailyDepositQuery.new(account).deposits
+
+    (daily_deposit_limit - deposits - amount) >= 0
+  end
+
+  def daily_deposit_limit
+    800
+  end
 
   def create_transaction!
     Transaction.create!(
