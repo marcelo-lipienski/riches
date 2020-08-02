@@ -2,14 +2,14 @@
 
 class UsersController < ApplicationController
   def create
-    service = UserRegistrationService.new(user_params, address_params).call
+    user = UserRegistrationService.new(user_params, address_params).call
 
-    unless service.success?
-      render(json: { error: service.error }, status: :bad_request)
+    unless user.success?
+      render(json: { error: user.error }, status: :bad_request)
       return
     end
 
-    render(json: service.data, status: :created)
+    render(json: user.data, status: :created)
   end
 
   private

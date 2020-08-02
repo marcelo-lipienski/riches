@@ -7,8 +7,7 @@ class UserAccountCreationService
       data: {
         number: account_number,
         agency: random_string,
-        limit: account_limit,
-        token: random_string
+        limit: account_limit
       }
     )
   end
