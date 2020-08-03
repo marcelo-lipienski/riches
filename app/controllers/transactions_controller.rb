@@ -1,0 +1,17 @@
+# frozen_string_literal: true
+
+class TransactionsController < ApplicationController
+  before_action :authorize
+
+  # Creates a credit transaction from and to a given user
+  def deposit
+    service = DepositService.new(@current_user.account, params[:amount]).call
+
+    unless service.success?
+      render(json: { error: service.error }, status: :bad_request)
+      return
+    end
+
+    render(status: :ok)
+  end
+end
