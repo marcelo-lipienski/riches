@@ -2,7 +2,7 @@
 
 require('rails_helper')
 
-RSpec.describe('Accounts', type: :request) do
+RSpec.describe('Transactions', type: :request) do
   describe('POST /deposit') do
     let!(:account) { create(:account) }
 
@@ -12,7 +12,7 @@ RSpec.describe('Accounts', type: :request) do
 
     context('when request is unauthorized') do
       it('returns http not found') do
-        post('/accounts/deposit')
+        post('/transactions/deposit')
         expect(response).to(have_http_status(:not_found))
       end
     end
@@ -21,7 +21,7 @@ RSpec.describe('Accounts', type: :request) do
       it('returns http bad request') do
         params = { amount: -0.01 }
 
-        post('/accounts/deposit', headers: headers, params: params, as: :json)
+        post('/transactions/deposit', headers: headers, params: params, as: :json)
         expect(response).to(have_http_status(:bad_request))
       end
     end
@@ -30,7 +30,7 @@ RSpec.describe('Accounts', type: :request) do
       it('returns http bad request') do
         params = { amount: 0 }
 
-        post('/accounts/deposit', headers: headers, params: params, as: :json)
+        post('/transactions/deposit', headers: headers, params: params, as: :json)
         expect(response).to(have_http_status(:bad_request))
       end
     end
@@ -39,7 +39,7 @@ RSpec.describe('Accounts', type: :request) do
       before do
         params = { amount: 0.01 }
 
-        post('/accounts/deposit', headers: headers, params: params, as: :json)
+        post('/transactions/deposit', headers: headers, params: params, as: :json)
       end
 
       it('returns http ok') do
