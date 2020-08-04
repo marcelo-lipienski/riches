@@ -14,4 +14,23 @@ class TransactionsController < ApplicationController
 
     render(status: :ok)
   end
+
+  # Creates a debit transaction to the user transfering and a credit transaction
+  # to the user receiving the transaction
+  def transfer
+    service = TransferService.new(@current_user.account, transfer_params).call
+
+    unless service.success?
+      render(json: { error: service.error }, status: :bad_request)
+      return
+    end
+
+    render(status: :ok)
+  end
+
+  private
+
+  def transfer_params
+    params.permit(:document, :number, :agency, :amount)
+  end
 end

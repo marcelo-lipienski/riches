@@ -3,5 +3,6 @@ Rails.application.routes.draw do
   resource :accounts, only: %i[update], path: 'accounts'
   resource :transactions, only: [], path: 'transactions' do
     post 'deposit'
+    post 'transfer'
   end
 end
