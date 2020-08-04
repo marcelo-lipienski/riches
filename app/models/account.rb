@@ -13,6 +13,16 @@ class Account < ApplicationRecord
 
   before_create :create_account
 
+  def add_balance(amount)
+    self.balance += amount
+    self
+  end
+
+  def subtract_balance(amount)
+    self.balance -= amount
+    self
+  end
+
   private
 
   def create_account
