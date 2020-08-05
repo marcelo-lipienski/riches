@@ -3,7 +3,8 @@
 require('rails_helper')
 
 RSpec.describe(WithdrawalRequestService) do
-  let(:service) { described_class.new(amount).call }
+  let!(:account) { create(:account)                          }
+  let(:service)  { described_class.new(account, amount).call }
 
   context('when amount is negative') do
     let(:amount) { -0.01 }
@@ -38,10 +39,10 @@ RSpec.describe(WithdrawalRequestService) do
     end
 
     it('expects to have one available configuration') do
-      expect(service.data.size).to(eq(configuration.size))
+      expect(service.data[:withdrawal_options].size).to(eq(configuration.size))
     end
 
-    it { expect(service.data).to(eq(configuration)) }
+    it { expect(service.data[:withdrawal_options]).to(eq(configuration)) }
   end
 
   context('when amount is higher than 20') do
@@ -53,9 +54,9 @@ RSpec.describe(WithdrawalRequestService) do
     end
 
     it('expects to have two available configurations') do
-      expect(service.data.size).to(eq(configuration.size))
+      expect(service.data[:withdrawal_options].size).to(eq(configuration.size))
     end
 
-    it { expect(service.data).to(eq(configuration)) }
+    it { expect(service.data[:withdrawal_options]).to(eq(configuration)) }
   end
 end

@@ -1,7 +1,8 @@
 # frozen_string_literal: true
 
 class WithdrawalRequestService
-  def initialize(amount)
+  def initialize(account, amount)
+    @account = account
     @amount = amount
   end
 
@@ -9,17 +10,27 @@ class WithdrawalRequestService
     raise(ArgumentError, 'Invalid amount') unless amount.positive? && amount.integer?
     raise(ArgumentError, 'Available bills are: 50, 20 and 2') unless amount.even?
 
-    # Criar solicitação de saque
-    # Salvar as duas opções de notas para o saque
+    create_withdrawal_request!
 
-    OpenStruct.new(success?: true, data: withdrawal_options)
+    OpenStruct.new(success?: true, data: response)
   rescue ArgumentError => e
     OpenStruct.new(success?: false, error: e.message)
   end
 
   private
 
-  attr_reader :amount
+  attr_reader :account, :amount, :withdrawal_request
+
+  def create_withdrawal_request!
+    @withdrawal_request ||= WithdrawalRequest.create!(account: account, amount: amount)
+  end
+
+  def response
+    {
+      withdrawal_request: withdrawal_request.id,
+      withdrawal_options: withdrawal_options
+    }
+  end
 
   def withdrawal_options
     withdrawal_options = Withdrawal.new(amount).options
