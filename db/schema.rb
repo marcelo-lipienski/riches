@@ -10,9 +10,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_08_02_190902) do
+ActiveRecord::Schema.define(version: 2020_08_05_225154) do
 
   # These are extensions that must be enabled in order to support this database
+  enable_extension "pgcrypto"
   enable_extension "plpgsql"
 
   create_table "accounts", force: :cascade do |t|
@@ -61,6 +62,15 @@ ActiveRecord::Schema.define(version: 2020_08_02_190902) do
     t.string "password_digest"
   end
 
+  create_table "withdrawal_requests", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.decimal "amount", precision: 8, scale: 2
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["account_id"], name: "index_withdrawal_requests_on_account_id"
+  end
+
   add_foreign_key "accounts", "users"
   add_foreign_key "addresses", "users"
+  add_foreign_key "withdrawal_requests", "accounts"
 end

@@ -4,5 +4,6 @@ Rails.application.routes.draw do
   resource :transactions, only: [], path: 'transactions' do
     post 'deposit'
     post 'transfer'
+    post 'withdrawal_request'
   end
 end

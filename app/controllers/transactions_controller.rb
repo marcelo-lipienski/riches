@@ -28,6 +28,18 @@ class TransactionsController < ApplicationController
     render(status: :ok)
   end
 
+  # Creates a withdrawal request
+  def withdrawal_request
+    service = WithdrawalRequestService.new(@current_user.account, params[:amount]).call
+
+    unless service.success?
+      render(json: { error: service.error }, status: :bad_request)
+      return
+    end
+
+    render(json: service.data, status: :ok)
+  end
+
   private
 
   def transfer_params
