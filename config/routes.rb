@@ -1,6 +1,8 @@
 Rails.application.routes.draw do
   resource :users, only: %i[create], path: 'users'
-  resource :accounts, only: %i[update], path: 'accounts'
+  resource :accounts, only: %i[update], path: 'accounts' do
+    get 'balance'
+  end
   resource :transactions, only: [], path: 'transactions' do
     post 'deposit'
     post 'transfer'
