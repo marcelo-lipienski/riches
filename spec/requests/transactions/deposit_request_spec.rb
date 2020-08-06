@@ -42,13 +42,8 @@ RSpec.describe('Transactions', type: :request) do
         post('/transactions/deposit', headers: headers, params: params, as: :json)
       end
 
-      it('returns http ok') do
-        expect(response).to(have_http_status(:ok))
-      end
-
-      it('expects balance to have been updated') do
-        expect { account.reload }.to(change(account, :balance).from(0).to(0.01))
-      end
+      it { expect(response).to(have_http_status(:ok)) }
+      it { expect { account.reload }.to(change(account, :balance).from(0).to(0.01)) }
     end
   end
 end

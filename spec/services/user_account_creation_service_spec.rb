@@ -6,17 +6,9 @@ RSpec.describe(UserAccountCreationService) do
   let(:service) { described_class.new.call }
 
   context('when there are no registered accounts') do
-    it('expects response to be success') do
-      expect(service).to(be_success)
-    end
-
-    it('expects account number to be 1000-?') do
-      expect(service.data[:number][0..3]).to(eq('1000'))
-    end
-
-    it('expects account limit to be between 1000 and 1800') do
-      expect(service.data[:limit]).to(be_between(1000, 1800))
-    end
+    it { expect(service).to(be_success) }
+    it { expect(service.data[:number][0..3]).to(eq('1000')) }
+    it { expect(service.data[:limit]).to(be_between(1000, 1800)) }
   end
 
   context('when there is already a registered account') do

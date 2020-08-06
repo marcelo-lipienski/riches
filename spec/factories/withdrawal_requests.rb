@@ -1,5 +1,6 @@
 FactoryBot.define do
   factory :withdrawal_request do
-    account { nil }
+    account { association :account }
+    amount  { rand(1..1000)        }
   end
 end

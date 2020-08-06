@@ -9,27 +9,21 @@ RSpec.describe(UpdateAccountLimitService) do
     let(:new_limit) { -0.01                                        }
     let(:service)   { described_class.new(account, new_limit).call }
 
-    it('expects response not to be success') do
-      expect(service).not_to(be_success)
-    end
+    it { expect(service).not_to(be_success) }
   end
 
   context('when new limit is equal to 0.00') do
     let(:new_limit) { 0.00                                         }
     let(:service)   { described_class.new(account, new_limit).call }
 
-    it('expects response to be success') do
-      expect(service).to(be_success)
-    end
+    it { expect(service).to(be_success) }
   end
 
   context('when new limit is greater than 0.00') do
     let(:new_limit) { 0.01                                         }
     let(:service)   { described_class.new(account, new_limit).call }
 
-    it('expects response to be success') do
-      expect(service).to(be_success)
-    end
+    it { expect(service).to(be_success) }
   end
 
   context('when limit has been updated less than 10 minutes ago') do

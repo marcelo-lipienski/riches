@@ -17,34 +17,26 @@ RSpec.describe(UserRegistrationService) do
   end
 
   context('when user and address are valid') do
-    it('expects response to be success') do
-      service = described_class.new(user, address).call
+    let(:service) { described_class.new(user, address).call }
 
-      expect(service).to(be_success)
-    end
+    it { expect(service).to(be_success) }
   end
 
   context('when user is invalid and address is valid') do
-    it('expects response not to be success') do
-      service = described_class.new(invalid_user, address).call
+    let(:service) { described_class.new(invalid_user, address).call }
 
-      expect(service).not_to(be_success)
-    end
+    it { expect(service).not_to(be_success) }
   end
 
   context('when user is valid and address is invalid') do
-    it('expects response not to be success') do
-      service = described_class.new(user, invalid_address).call
+    let(:service) { described_class.new(user, invalid_address).call }
 
-      expect(service).not_to(be_success)
-    end
+    it { expect(service).not_to(be_success) }
   end
 
   context('when user and address are invalid') do
-    it('expects response not to be success') do
-      service = described_class.new(invalid_user, invalid_address).call
+    let(:service) { described_class.new(invalid_user, invalid_address).call }
 
-      expect(service).not_to(be_success)
-    end
+    it { expect(service).not_to(be_success) }
   end
 end
