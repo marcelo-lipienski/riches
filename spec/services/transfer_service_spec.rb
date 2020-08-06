@@ -23,41 +23,31 @@ RSpec.describe(TransferService) do
       params[:agency] = source.agency
     end
 
-    it('expects response not to be success') do
-      expect(service).not_to(be_success)
-    end
+    it { expect(service).not_to(be_success) }
   end
 
   context('when destination doesn\'t exist') do
     before { params[:document] = 'invalid' }
 
-    it('expects response not to be success') do
-      expect(service).not_to(be_success)
-    end
+    it { expect(service).not_to(be_success) }
   end
 
   context('when amount is negative') do
     before { params[:amount] = -0.01 }
 
-    it('expects response not to be success') do
-      expect(service).not_to(be_success)
-    end
+    it { expect(service).not_to(be_success) }
   end
 
   context('when source has insufficient funds') do
     before { params[:amount] = 0.01 + source.balance + source.limit }
 
-    it('expects response not to be success') do
-      expect(service).not_to(be_success)
-    end
+    it { expect(service).not_to(be_success) }
   end
 
   context('when transfer is valid') do
     before { params[:amount] = source.balance + source.limit }
 
-    it('expects response to be success') do
-      expect(service).to(be_success)
-    end
+    it { expect(service).to(be_success) }
 
     it('expects source account balance to be updated') do
       new_balance = source.balance - params[:amount]

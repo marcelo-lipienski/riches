@@ -9,8 +9,9 @@ class WithdrawalRequestService
   def call
     raise(ArgumentError, 'Invalid amount') unless amount.positive? && amount.integer?
     raise(ArgumentError, 'Available bills are: 50, 20 and 2') unless amount.even?
+    raise(ArgumentError, 'Insufficient funds') unless sufficient_funds?
 
-    create_withdrawal_request!
+    withdrawal_request!
 
     OpenStruct.new(success?: true, data: response)
   rescue ArgumentError => e
@@ -21,7 +22,11 @@ class WithdrawalRequestService
 
   attr_reader :account, :amount, :withdrawal_request
 
-  def create_withdrawal_request!
+  def sufficient_funds?
+    account.balance + account.limit - amount >= 0
+  end
+
+  def withdrawal_request!
     @withdrawal_request ||= WithdrawalRequest.create!(account: account, amount: amount)
   end
 

@@ -64,9 +64,7 @@ RSpec.describe('Accounts', type: :request) do
         end
       end
 
-      it('expects limit to have been updated') do
-        expect { account.reload }.to(change(account, :limit).from(original_limit).to(0.00))
-      end
+      it { expect { account.reload }.to(change(account, :limit).from(original_limit).to(0.00)) }
     end
   end
 end

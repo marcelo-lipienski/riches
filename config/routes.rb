@@ -5,5 +5,6 @@ Rails.application.routes.draw do
     post 'deposit'
     post 'transfer'
     post 'withdrawal_request'
+    post 'withdraw'
   end
 end
