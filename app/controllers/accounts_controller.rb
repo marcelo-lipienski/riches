@@ -16,4 +16,9 @@ class AccountsController < ApplicationController
 
     render(json: service.data, status: :ok)
   end
+
+  # User account balance
+  def balance
+    render(json: { balance: @current_user.account.balance }, status: :ok)
+  end
 end
