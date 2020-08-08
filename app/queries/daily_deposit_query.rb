@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class DailyDepositQuery
-  def initialize(relation = Account.scoped)
+  def initialize(relation = Account)
     @relation = relation
   end
 
