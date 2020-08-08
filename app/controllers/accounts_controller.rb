@@ -21,4 +21,16 @@ class AccountsController < ApplicationController
   def balance
     render(json: { balance: @current_user.account.balance }, status: :ok)
   end
+
+  # User account statement
+  def statement
+    service = StatementService.new(@current_user.account, params[:since]).call
+
+    unless service.success?
+      render(json: { error: service.error }, status: :bad_request)
+      return
+    end
+
+    render(json: service.data, status: :ok)
+  end
 end
