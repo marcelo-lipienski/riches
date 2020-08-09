@@ -234,7 +234,6 @@ Response
 #### POST /transactions/withdrawal
 
 Request params
-# HTTP STATUS: OK
 
 ```json
 {
